@@ -1,8 +1,7 @@
 import os
 import requests
 
-puerto = 8000
-base_url = f"http://localhost:{puerto}/cancionitodb/"
+base_url = f" https://04f2-190-216-32-11.ngrok-free.app/cancionitodb/"
 
 songs = {}
 
@@ -18,7 +17,8 @@ print(songs)
 
 #### PASO 2: LEVANTAR EL SERVER -> python -m http.server 8000
 ####--------PASO 3: Consumir la API----------####
-route = "http://localhost:5024/api/"
+route = "http://localhost:5084/api/"
+headers = { "X-Forwarded-Proto": "https" }  # Encabezado para evitar advertencias de ngrok
 
 # Recorremos el diccionario de canciones
 for k, values in songs.items():
@@ -36,13 +36,13 @@ for k, values in songs.items():
         for i, url in enumerate(values):
             # Datos del POST de la imagen
             img_data = {
-                "songId": song_id,  # Asociamos la imagen con la canción
                 "internalId": i,    # Identificador interno (opcional)
+                "songId": song_id,  # Asociamos la imagen con la canción
                 "url": url          # URL de la imagen
             }
             # Realizamos la solicitud POST para agregar la imagen
             print(f"/POST: {route+'images'} - {img_data}")
-            img_response = requests.post(route + "images", json=img_data)
+            img_response = requests.post(route + "images", json=img_data, headers=headers)  # Agregamos los headers aquí
 
             if img_response.status_code != 201:
                 print(f"Error al subir la imagen: {img_data}, status code: {img_response.status_code}")
