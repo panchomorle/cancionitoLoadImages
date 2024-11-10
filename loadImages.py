@@ -1,7 +1,7 @@
 import os
 import requests
 
-base_url = f" https://04f2-190-216-32-11.ngrok-free.app/cancionitodb/"
+base_url = f"https://4df0-181-209-70-126.ngrok-free.app/cancionitodb/"
 
 songs = {}
 
